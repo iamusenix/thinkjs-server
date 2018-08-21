@@ -1,5 +1,6 @@
 const Base = require('./base.js');
 const bcrypt = require('bcrypt');
+const oauth2 = require('../oauth2');
 module.exports = class extends Base {
   /*
   indexAction() {
@@ -26,5 +27,8 @@ module.exports = class extends Base {
     }
     delete data.passHash;
     this.success(data);
+  }
+  async tokenAction(){
+    this.success(await oauth2.token(this.ctx));
   }
 };

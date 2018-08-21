@@ -4,9 +4,9 @@ module.exports = class extends think.Mongoose {
       userId:String,
       clientId:String,
       accessToken:String,
-      accessTokenExpiresOn:Date,
+      accessTokenExpiresAt:Date,
       refreshToken: String,
-      refreshTokenExpiresOn:String
+      refreshTokenExpiresAt:String
     }
   }
 }
