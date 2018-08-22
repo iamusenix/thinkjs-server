@@ -1,5 +1,5 @@
 
-Application created by [ThinkJS](http://www.thinkjs.org)
+Web server scaffold based on  [ThinkJS](http://www.thinkjs.org). Include OAuth2 workflow with Mongodb model.
 
 ## Install dependencies
 
