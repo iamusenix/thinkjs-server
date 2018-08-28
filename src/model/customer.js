@@ -10,6 +10,7 @@ module.exports = class extends think.Mongoose {
       phone:String,
       sex:Number,
       birthday:Date,
+      star:[String],
       address:String
     }
   }

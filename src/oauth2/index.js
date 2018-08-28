@@ -8,7 +8,10 @@ const Response = require('oauth2-server').Response;
 const oauth = new NodeOAuthServer({
     model:model,
     grants: ['password'],
-    debug: true
+    debug: true,
+    requireClientAuthentication:{
+      password:false
+    }
   });
 
 function newResponse(res){
@@ -31,7 +34,19 @@ module.exports = {
     let req = new Request(ctx.request);
     let res = new Response(newResponse(ctx.response));
     req.body = req.body.post;
+    console.log('====',req.body);
     let data= await oauth.token(req,res);
+    return data;
+  },
+  owToken: async function(ctx, password){
+    let req = new Request(ctx.request);
+    let res = new Response(newResponse(ctx.response));
+    req.body = req.body.post;
+    req.body.password = password;
+    console.log('====',req.body);
+    let data= await oauth.token(req,res);
+    delete data.client;
+    delete data.user;
     return data;
   }
 }

@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "node-rsa": "^1.0.1",
     "oauth2-server": "^3.0.0",
     "think-cache": "^1.0.0",
     "think-cache-file": "^1.0.8",

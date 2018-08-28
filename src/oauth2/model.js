@@ -1,15 +1,20 @@
 const bcrypt = require('bcrypt');
+const jwtToken = require('./jwtToken');
 module.exports = {
      getUser:async function(username, password){
         let User = think.mongoose('user');
         let passHash = await bcrypt.hash(password,10);
-        console.log(username,password,passHash);
-        let user =  await User.findOne({userName:username}).lean();
-        let valid = await bcrypt.compare(password, user.passHash);
+        let user =  await User.findOne({name:username}).lean();
+        let Customer = think.mongoose('customer');
+        let customer = await Customer.findOne({name:username}).lean();
+        let validUser = user && await bcrypt.compare(password, user.passHash);
+        let validCustomer = customer && await bcrypt.compare(password, customer.passHash);
+        let valid = validUser || validCustomer;
+        
         if(valid){
-            delete user.passHash;
-            console.log(user);
-            return user;
+            let u = user || customer;
+            delete u.passHash;
+            return u;
         }else{
             return valid;
         }
@@ -34,8 +39,16 @@ module.exports = {
     },
     getClient : async function(clientId, clientSecret) {
         let Client = think.mongoose('auth2/client');
-        let client = await Client.findOne({clientId, clientSecret}).lean();
+        let client = await Client.findOne({clientId}).lean();
         delete client.clientSecret;
         return client;
+    },
+    generateAccessToken: async function(client, user, scope){
+        let payload = {
+            userId:user.id,
+            clientId:client.clientId
+        };
+        let token = jwtToken.sign(payload);
+        return token;
     }
 }
