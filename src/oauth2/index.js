@@ -8,7 +8,10 @@ const Response = require('oauth2-server').Response;
 const oauth = new NodeOAuthServer({
     model:model,
     grants: ['password'],
-    debug: true
+    debug: true,
+    requireClientAuthentication:{
+      password:false
+    }
   });
 
 function newResponse(res){

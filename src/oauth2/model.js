@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwtToken = require('./jwtToken');
 module.exports = {
      getUser:async function(username, password){
         let User = think.mongoose('user');
@@ -34,8 +35,17 @@ module.exports = {
     },
     getClient : async function(clientId, clientSecret) {
         let Client = think.mongoose('auth2/client');
-        let client = await Client.findOne({clientId, clientSecret}).lean();
+        let client = await Client.findOne({clientId}).lean();
         delete client.clientSecret;
         return client;
+    },
+    generateAccessToken: async function(client, user, scope){
+        let payload = {
+            userId:user.id,
+            clientId:client.clientId
+        };
+        let token = jwtToken.sign(payload);
+        return token;
     }
+
 }
